@@ -2,6 +2,7 @@ const predictionButton = document.querySelector(".forecast-btn");
 const currentForecast = document.querySelector('.current-forecast h1');
 const probabilityText = document.querySelector('.current-forecast p');
 const forecastsList = document.querySelector('.forecasts');
+const forecastTemplate = document.querySelector('#forecast-item');
 
 const firstPrediction = 'Время и терпение,  вас ждут много сюрпризов!';
 
@@ -17,18 +18,14 @@ function makePrediction(prediction) {
     const probability = Math.floor(Math.random() * 101);
     probabilityText.textContent = `Вероятность: ${probability}%`;
 
-    const newForecastItem = document.createElement('div');
-    newForecastItem.classList.add('forecast-item');
+    const forecastItem = forecastTemplate.content.cloneNode(true);
 
-    const newPrediction = document.createElement('h3');
-    newPrediction.textContent = prediction;
-    newForecastItem.append(newPrediction);
+    forecastItem.querySelector('h3').textContent = prediction;
+    forecastItem.querySelector('p').textContent = `Вероятность: ${probability}%`;
 
-    const newPredictionText = document.createElement('p');
-    newPredictionText.textContent = `Вероятность: ${probability}%`;
-    newForecastItem.append(newPredictionText);
+    forecastsList.prepend(forecastItem);
 
-    forecastsList.prepend(newForecastItem);
+    return forecastItem;
 }
 
 predictionButton.addEventListener('click', function() {
